@@ -468,4 +468,34 @@ a:hover { text-decoration: underline; }
   .fb-dot { width: 24px; height: 24px; }
   .wrap { padding: 20px 14px 48px; }
   .site-header { padding: 14px 16px; }
+
+  /* Scale / label pickers: stack the fields and let each segmented control
+     use the full width, wrapping its buttons onto as many rows as needed so
+     nothing runs off-screen. */
+  .scale-bar { gap: 14px; }
+  .scale-bar .field { width: 100%; }
+  .seg {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 6px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+  .seg button {
+    flex: 1 1 calc(50% - 3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel);
+    padding: 8px 6px;
+    font-size: 0.78rem;
+    white-space: normal;
+  }
+  .seg button.on { background: var(--accent); border-color: var(--accent); }
 }
