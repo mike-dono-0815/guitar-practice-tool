@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice — Guitar Practice Tool</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">Guitar Practice Tool</a>
+  <span class="tagline">backing tracks &amp; a scale fretboard</span>
+</header>
+
+<main class="wrap" id="main">
+  <a class="back-link" href="index.html">&larr; All tracks</a>
+
+  <div class="practice-top">
+    <div class="video-panel">
+      <video id="video" controls loop playsinline preload="metadata"></video>
+    </div>
+
+    <aside class="track-meta">
+      <div>
+        <h1 id="t-title"></h1>
+        <div class="album" id="t-album"></div>
+      </div>
+      <div class="row">
+        <span class="lbl">Key</span>
+        <span class="key-badge" id="t-key"></span>
+      </div>
+      <div class="row">
+        <span class="lbl">Chords</span>
+        <div class="chords" id="t-chords"></div>
+        <span class="progression" id="t-prog"></span>
+      </div>
+      <span class="loop-note">Video loops for continuous practice</span>
+    </aside>
+  </div>
+
+  <div class="scale-bar">
+    <div class="field">
+      <span class="lbl">Key</span>
+      <span class="locked-key" id="s-key">A <small>locked to track</small></span>
+    </div>
+    <div class="field">
+      <span class="lbl">Scale</span>
+      <div class="seg" id="scale-seg" role="group" aria-label="Scale"></div>
+    </div>
+    <div class="field">
+      <span class="lbl">Labels</span>
+      <div class="seg" id="label-seg" role="group" aria-label="Note labels">
+        <button type="button" data-mode="name" class="on">Note names</button>
+        <button type="button" data-mode="degree">Scale degrees</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fretboard-scroll">
+    <div id="fretboard"></div>
+  </div>
+  <div class="fb-legend" id="fb-legend"></div>
+</main>
+
+<div class="wrap" id="not-found" hidden>
+  <p>Track not found. <a href="index.html">Back to all tracks</a>.</p>
+</div>
+
+<script src="assets/tracks.js"></script>
+<script src="assets/fretboard.js"></script>
+<script>
+  (function () {
+    'use strict';
+
+    var params = new URLSearchParams(location.search);
+    var track = window.getTrack(params.get('track'));
+
+    if (!track) {
+      document.getElementById('main').hidden = true;
+      document.getElementById('not-found').hidden = false;
+      return;
+    }
+
+    document.title = track.title + ' — Guitar Practice Tool';
+
+    // ── Video ──
+    var video = document.getElementById('video');
+    video.src = track.video;
+    video.poster = track.poster;
+
+    // ── Track meta panel ──
+    document.getElementById('t-title').textContent = track.title;
+    document.getElementById('t-album').textContent = track.album;
+    document.getElementById('t-key').textContent = track.keyName;
+    document.getElementById('t-prog').textContent = track.progression;
+    document.getElementById('t-chords').innerHTML = track.chords.map(function (c) {
+      return '<span class="chord-chip">' + c + '</span>';
+    }).join('');
+
+    var rootName = window.Fretboard.NOTES[track.root];
+    document.getElementById('s-key').innerHTML = rootName + ' <small>locked to track</small>';
+
+    // ── Fretboard ──
+    var fb = window.Fretboard.create(document.getElementById('fretboard'));
+    var currentScale = track.defaultScale;
+    fb.setScale(track.root, currentScale);
+
+    // Scale selector
+    var scaleSeg = document.getElementById('scale-seg');
+    window.Fretboard.SCALE_NAMES.forEach(function (name) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = name;
+      b.dataset.scale = name;
+      if (name === currentScale) b.classList.add('on');
+      b.addEventListener('click', function () {
+        currentScale = name;
+        fb.setScale(track.root, name);
+        scaleSeg.querySelectorAll('button').forEach(function (x) {
+          x.classList.toggle('on', x === b);
+        });
+        renderLegend();
+      });
+      scaleSeg.appendChild(b);
+    });
+
+    // Label mode selector
+    var labelSeg = document.getElementById('label-seg');
+    labelSeg.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        fb.setLabelMode(b.dataset.mode);
+        labelSeg.querySelectorAll('button').forEach(function (x) {
+          x.classList.toggle('on', x === b);
+        });
+      });
+    });
+
+    // ── Legend: which notes are in the current scale ──
+    var SCALE_INTERVALS = {
+      'Minor Pentatonic': [0, 3, 5, 7, 10],
+      'Natural Minor': [0, 2, 3, 5, 7, 8, 10],
+      'Blues': [0, 3, 5, 6, 7, 10],
+      'Major Pentatonic': [0, 2, 4, 7, 9],
+      'Major': [0, 2, 4, 5, 7, 9, 11],
+    };
+    var legend = document.getElementById('fb-legend');
+    function renderLegend() {
+      var ivs = SCALE_INTERVALS[currentScale] || [];
+      legend.innerHTML = ivs.map(function (iv) {
+        var pc = (track.root + iv) % 12;
+        var isRoot = iv === 0;
+        return '<span class="item">' +
+          '<span class="sw' + (isRoot ? ' root' : '') + '" style="background:' +
+            window.Fretboard.NOTE_COLORS[pc] + '"></span>' +
+          window.Fretboard.NOTES[pc] + (isRoot ? ' (root)' : '') +
+        '</span>';
+      }).join('');
+    }
+    renderLegend();
+  })();
+</script>
+
+</body>
+</html>

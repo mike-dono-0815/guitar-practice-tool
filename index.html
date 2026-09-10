@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guitar Practice Tool</title>
+<meta name="description" content="Practise soloing over looping backing-track videos with a scale-visualising fretboard.">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">Guitar Practice Tool</a>
+  <span class="tagline">backing tracks &amp; a scale fretboard</span>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <h1>Pick a track</h1>
+    <p>
+      Each track is a looping backing-track video. Choose one and the practice
+      view opens with the video plus a fretboard showing the scale to solo
+      with &mdash; switch between pentatonic, natural minor, blues and their
+      major variants as you play.
+    </p>
+  </div>
+
+  <div class="track-grid" id="track-grid"></div>
+</main>
+
+<script src="assets/tracks.js"></script>
+<script>
+  (function () {
+    'use strict';
+    var grid = document.getElementById('track-grid');
+
+    window.TRACKS.forEach(function (t) {
+      var card = document.createElement('a');
+      card.className = 'track-card';
+      card.href = 'practice.html?track=' + encodeURIComponent(t.id);
+
+      var chips = t.chords.map(function (c) {
+        return '<span class="chord-chip">' + c + '</span>';
+      }).join('');
+
+      card.innerHTML =
+        '<div class="thumb" style="background-image:url(\'' + t.poster + '\')"></div>' +
+        '<div class="body">' +
+          '<div class="title-row">' +
+            '<h2>' + t.title + '</h2>' +
+            '<span class="key-badge">' + t.keyName + '</span>' +
+          '</div>' +
+          '<div class="album">' + t.album + '</div>' +
+          '<div class="chords">' + chips + '</div>' +
+          '<div class="progression">' + t.progression + '</div>' +
+        '</div>';
+
+      grid.appendChild(card);
+    });
+  })();
+</script>
+
+</body>
+</html>
