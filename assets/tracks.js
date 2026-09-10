@@ -29,6 +29,18 @@ window.TRACKS = [
     video: 'assets/videos/a-minor.mp4',
     poster: 'assets/posters/a-minor.jpg',
   },
+  {
+    id: 'b-minor',
+    title: 'The Last Bastion',
+    album: "Titan's Wake",
+    keyName: 'B Minor',
+    root: 11, // B
+    defaultScale: 'Minor Pentatonic',
+    chords: ['Bm', 'G', 'D', 'A'],
+    progression: 'i – VI – III – VII',
+    video: 'assets/videos/b-minor.mp4',
+    poster: 'assets/posters/b-minor.jpg',
+  },
 ];
 
 window.getTrack = function (id) {
