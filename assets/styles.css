@@ -423,8 +423,22 @@ a:hover { text-decoration: underline; }
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 7px var(--nc), 0 0 0 2px rgba(255, 255, 255, 0.55);
 }
+/* Root note — deliberately loud: bigger, a thick gold ring, a wide amber
+   glow, and lifted above its neighbours so nothing clips the halo. */
+.fb-scell.in.root { z-index: 4; }
 .fb-scell.in.root .fb-dot {
-  box-shadow: 0 0 8px var(--nc), 0 0 0 2.5px var(--gold), 0 0 13px 2px rgba(233, 168, 62, 0.75);
+  transform: scale(1.22);
+  border-color: #fff;
+  box-shadow:
+    0 0 0 3px var(--gold),
+    0 0 0 5px rgba(20, 14, 6, 0.9),
+    0 0 16px 4px rgba(233, 168, 62, 0.95),
+    0 0 30px 8px rgba(233, 168, 62, 0.5);
+}
+.fb-scell.in.root .fb-lbl {
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .fb-lbl {
