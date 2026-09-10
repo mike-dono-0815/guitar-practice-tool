@@ -6,21 +6,9 @@
    ────────────────────────────────────────────────────────────── */
 window.TRACKS = [
   {
-    id: 'd-minor',
+    id: 'a-minor',
     title: 'Before the Solo Begins',
     album: 'The Groundwork',
-    keyName: 'D Minor',
-    root: 2, // D
-    defaultScale: 'Minor Pentatonic',
-    chords: ['Dm', 'B♭', 'F', 'C'],
-    progression: 'i – VI – III – VII',
-    video: 'assets/videos/d-minor.mp4',
-    poster: 'assets/posters/d-minor.jpg',
-  },
-  {
-    id: 'a-minor',
-    title: 'Before the Rain Starts',
-    album: 'Under Northern Skies',
     keyName: 'A Minor',
     root: 9, // A
     defaultScale: 'Minor Pentatonic',
@@ -30,16 +18,28 @@ window.TRACKS = [
     poster: 'assets/posters/a-minor.jpg',
   },
   {
-    id: 'b-minor',
+    id: 'd-minor',
+    title: 'Before the Rain Starts',
+    album: 'Under Northern Skies',
+    keyName: 'D Minor',
+    root: 2, // D
+    defaultScale: 'Minor Pentatonic',
+    chords: ['Dm', 'B♭', 'F', 'C'],
+    progression: 'i – VI – III – VII',
+    video: 'assets/videos/d-minor.mp4',
+    poster: 'assets/posters/d-minor.jpg',
+  },
+  {
+    id: 'ds-minor',
     title: 'The Last Bastion',
     album: "Titan's Wake",
-    keyName: 'B Minor',
-    root: 11, // B
+    keyName: 'D♯ Minor',
+    root: 3, // D♯
     defaultScale: 'Minor Pentatonic',
-    chords: ['Bm', 'G', 'D', 'A'],
+    chords: ['D♯m', 'B', 'F♯', 'C♯'],
     progression: 'i – VI – III – VII',
-    video: 'assets/videos/b-minor.mp4',
-    poster: 'assets/posters/b-minor.jpg',
+    video: 'assets/videos/ds-minor.mp4',
+    poster: 'assets/posters/ds-minor.jpg',
   },
 ];
 
